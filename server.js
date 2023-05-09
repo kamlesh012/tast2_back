@@ -16,12 +16,14 @@ const chatRoutes = require("./routes/chatRoutes.js");
 const messageRoutes = require("./routes/messageRoutes.js");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware.js");
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config();
 connectDB();
 
 const app = express();
 app.use(express.json()); //to accept Json data
+app.use(cors());
 //app.use is a middleware that will be executed everytime request is accepted.
 //express.json will parse data to json & add to request.body.
 // app.use(bodyParser.json({ limit: "10mb" }));
@@ -46,6 +48,7 @@ if (process.env.NODE_ENV === "production") {
   );
 } else {
   app.get("/", (req, res) => {
+    res.setHeader("Access-Control-Allow-Credentials", true);
     res.send("API is running..");
   });
 }
